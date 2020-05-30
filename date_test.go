@@ -173,3 +173,20 @@ func TestCarbon_SetTimestamp(t *testing.T) {
 	loc, _ := time.LoadLocation("UTC")
 	assert.EqualValues(t, "2019-12-31 16:00:00", c1.In(loc).Format(DefaultFormat))
 }
+
+func TestCarbon_SetTime(t *testing.T) {
+	c1, _ := Create(2019, time.May, 22, 0, 0, 0, 0, "UTC")
+	c1.SetTime(1, 1, 1, 1)
+	assert.EqualValues(t, 1, c1.Hour())
+	assert.EqualValues(t, 1, c1.Minute())
+	assert.EqualValues(t, 1, c1.Second())
+	assert.EqualValues(t, 1, c1.Nanosecond())
+}
+
+func TestCarbon_SetDate(t *testing.T) {
+	c1, _ := Create(2019, time.May, 22, 0, 0, 0, 0, "UTC")
+	c1.SetDate(2020, time.April, 1)
+	assert.EqualValues(t, 2020, c1.Year())
+	assert.EqualValues(t, time.April, c1.Month())
+	assert.EqualValues(t, 1, c1.Day())
+}

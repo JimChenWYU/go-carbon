@@ -8,7 +8,7 @@ func (c *Carbon) SetTimeZone(loc string) (*Carbon, error) {
 		return nil, err
 	}
 
-	c.Time = time.Date(c.Year(), c.Month(), c.Day(), c.Hour(), c.Minute(), c.Second(), c.Nanosecond(), l);
+	c.Time = time.Date(c.Year(), c.Month(), c.Day(), c.Hour(), c.Minute(), c.Second(), c.Nanosecond(), l)
 	return c, nil
 }
 
@@ -70,6 +70,22 @@ func (c *Carbon) SubMonths(m int) *Carbon {
 
 func (c *Carbon) SubYears(y int) *Carbon {
 	return NewCarbon(c.AddDate(-y, 0, 0))
+}
+
+/**
+ * Set the date with gregorian year, month and day numbers.
+ */
+func (c *Carbon) SetDate(year int, month time.Month, day int) *Carbon {
+	c.Time = time.Date(year, month, day, c.Hour(), c.Minute(), c.Second(), c.Nanosecond(), c.Location())
+	return c
+}
+
+/**
+ * Resets the current time of the DateTime object to a different time.
+ */
+func (c *Carbon) SetTime(hour, minute, second, nanosecond int) *Carbon {
+	c.Time = time.Date(c.Year(), c.Month(), c.Day(), hour, minute, second, nanosecond, c.Location())
+	return c
 }
 
 func (c *Carbon) SetTimestamp(t int64) *Carbon {

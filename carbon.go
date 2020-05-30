@@ -15,16 +15,21 @@ const (
 	MillisecondTimeFormat = "15:04:05.000"
 	MicrosecondTimeFormat = "15:04:05.000000"
 	HourMinuteFormat      = "15:04"
-	DayDateTimeFormat = "Mon, Jan 2, 2006 3:04 PM"
-	CookieFormat      = "Monday, 02-Jan-2006 15:04:05 MST"
-	RFC822Format      = "Mon, 02 Jan 06 15:04:05 -0700"
-	RFC850Format      = "Monday, 02-Jan-06 15:04:05 MST"
-	RFC1036Format     = "Mon, 02 Jan 06 15:04:05 -0700"
-	RFC2822Format     = "Mon, 02 Jan 2006 15:04:05 -0700"
-	RFC3339Format     = "2006-01-02T15:04:05-07:00"
-	RSSFormat         = "Mon, 02 Jan 2006 15:04:05 -0700"
+	DayDateTimeFormat     = "Mon, Jan 2, 2006 3:04 PM"
+	CookieFormat          = "Monday, 02-Jan-2006 15:04:05 MST"
+	RFC822Format          = "Mon, 02 Jan 06 15:04:05 -0700"
+	RFC850Format          = "Monday, 02-Jan-06 15:04:05 MST"
+	RFC1036Format         = "Mon, 02 Jan 06 15:04:05 -0700"
+	RFC2822Format         = "Mon, 02 Jan 2006 15:04:05 -0700"
+	RFC3339Format         = "2006-01-02T15:04:05-07:00"
+	RSSFormat             = "Mon, 02 Jan 2006 15:04:05 -0700"
 
-	DaysPerWeek = 7
+	DaysPerWeek          = 7
+	HoursPerDay          = 24
+	MinutesPerHour       = 60
+	SecondsPerMinute     = 60
+	NanosecondsPerSecond = 1000000000
+	MonthsPerQuarter     = 3
 )
 
 type Carbon struct {
