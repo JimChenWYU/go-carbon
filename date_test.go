@@ -190,3 +190,15 @@ func TestCarbon_SetDate(t *testing.T) {
 	assert.EqualValues(t, time.April, c1.Month())
 	assert.EqualValues(t, 1, c1.Day())
 }
+
+func TestCarbon_AddMilli(t *testing.T) {
+	c1, _ := Create(2019, time.May, 22, 0, 0, 0, 0, "UTC")
+	c2 := c1.AddMilli(1)
+	assert.EqualValues(t, time.Duration(1)*time.Millisecond, c2.Nanosecond())
+}
+
+func TestCarbon_AddMicro(t *testing.T) {
+	c1, _ := Create(2019, time.May, 22, 0, 0, 0, 0, "UTC")
+	c2 := c1.AddMicro(1)
+	assert.EqualValues(t, time.Duration(1)*time.Microsecond, c2.Nanosecond())
+}

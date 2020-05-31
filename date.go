@@ -18,6 +18,16 @@ func (c *Carbon) Timezone() string {
 	return c.Location().String()
 }
 
+// Add milliseconds to the instance.
+func (c *Carbon) AddMilli(ms int) *Carbon {
+	return NewCarbon(c.Add(time.Duration(ms) * time.Millisecond))
+}
+
+// Add microseconds to the instance.
+func (c *Carbon) AddMicro(ms int) *Carbon {
+	return NewCarbon(c.Add(time.Duration(ms) * time.Microsecond))
+}
+
 // Add seconds to the instance.
 func (c *Carbon) AddSeconds(s int) *Carbon {
 	return NewCarbon(c.Add(time.Duration(s) * time.Second))
@@ -53,6 +63,16 @@ func (c *Carbon) AddYears(y int) *Carbon {
 	return NewCarbon(c.AddDate(y, 0, 0))
 }
 
+// Sub milliseconds to the instance.
+func (c *Carbon) SubMilli(ms int) *Carbon {
+	return c.AddMilli(-ms)
+}
+
+// Sub microseconds to the instance.
+func (c *Carbon) SubMicro(ms int) *Carbon {
+	return c.AddMicro(-ms)
+}
+
 // Sub seconds to the instance.
 func (c *Carbon) SubSeconds(s int) *Carbon {
 	return c.AddSeconds(-s)
@@ -70,22 +90,22 @@ func (c *Carbon) SubHours(h int) *Carbon {
 
 // Sub days to the instance.
 func (c *Carbon) SubDays(d int) *Carbon {
-	return NewCarbon(c.AddDate(0, 0, -d))
+	return c.AddDays(-d)
 }
 
 // Sub weeks to the instance.
 func (c *Carbon) SubWeeks(w int) *Carbon {
-	return c.SubDays(DaysPerWeek * w)
+	return c.AddWeeks(-w)
 }
 
 // Sub months to the instance.
 func (c *Carbon) SubMonths(m int) *Carbon {
-	return NewCarbon(c.AddDate(0, -m, 0))
+	return c.AddMonths(-m)
 }
 
 // Sub years to the instance.
 func (c *Carbon) SubYears(y int) *Carbon {
-	return NewCarbon(c.AddDate(-y, 0, 0))
+	return c.AddYears(-y)
 }
 
 // Set the date with gregorian year, month and day numbers.
