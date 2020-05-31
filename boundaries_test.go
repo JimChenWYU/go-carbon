@@ -10,7 +10,7 @@ const (
 	MaxNS = 999999999
 )
 
-func TestCarbon_startOfDay(t *testing.T) {
+func TestCarbon_StartOfDay(t *testing.T) {
 	c1, _ := Create(2019, time.May, 22, 1, 1, 1, 1, "UTC")
 	c2 := c1.StartOfDay()
 
