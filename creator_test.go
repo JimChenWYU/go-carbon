@@ -1,7 +1,6 @@
 package carbon
 
 import (
-	"errors"
 	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
@@ -37,45 +36,20 @@ func TestCreateFromTime(t *testing.T) {
 	assert.EqualValues(t, 103, c.Nanosecond())
 }
 
-func TestRawParseUnknown(t *testing.T) {
-	_, err := RawParse("sssss", getLocation("Africa/Cairo"))
-
-	assert.NotNil(t, err)
-	assert.Equal(t, errors.New("parse syntax error"), err)
-}
-
 func TestTodayEET(t *testing.T) {
-	today, _ := Today(getLocation("Africa/Cairo"))
+	today := Today(getLocation("Africa/Cairo"))
 
 	assert.Equal(t, "Africa/Cairo", today.Timezone().String())
 }
 
-//func TestTodayUnknown(t *testing.T) {
-//	_, err := Today(getLocation("Jupiter/Wondertown"))
-//
-//	assert.NotNil(t, err)
-//}
-
 func TestTomorrowEET(t *testing.T) {
-	tomorrow, _ := Tomorrow(getLocation("Africa/Cairo"))
+	tomorrow := Tomorrow(getLocation("Africa/Cairo"))
 
 	assert.Equal(t, "Africa/Cairo", tomorrow.Timezone().String())
 }
 
-//func TestTomorrowUnknown(t *testing.T) {
-//	_, err := Tomorrow(getLocation("Jupiter/Wondertown"))
-//
-//	assert.NotNil(t, err)
-//}
-
 func TestYesterdayEET(t *testing.T) {
-	yesterday, _ := Yesterday(getLocation("Africa/Cairo"))
+	yesterday := Yesterday(getLocation("Africa/Cairo"))
 
 	assert.Equal(t, "Africa/Cairo", yesterday.Timezone().String())
 }
-
-//func TestYesterdayUnknown(t *testing.T) {
-//	_, err := Tomorrow(getLocation("Jupiter/Wondertown"))
-//
-//	assert.NotNil(t, err)
-//}

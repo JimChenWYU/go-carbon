@@ -70,32 +70,17 @@ func (c *Carbon) IsWeekend() bool {
 
 // Determines if the instance is yesterday.
 func (c *Carbon) IsYesterday() bool {
-	yesterday, err := Yesterday(c.Timezone())
-	if err != nil {
-		return false
-	}
-
-    return c.ToDateString() == yesterday.ToDateString()
+    return c.ToDateString() == Yesterday(c.Timezone()).ToDateString()
 }
 
 // Determines if the instance is today.
 func (c *Carbon) IsToday() bool {
-	today, err := Today(c.Timezone())
-	if err != nil {
-		return false
-	}
-
-	return c.ToDateString() == today.ToDateString()
+	return c.ToDateString() == Today(c.Timezone()).ToDateString()
 }
 
 // Determines if the instance is tomorrow.
 func (c *Carbon) IsTomorrow() bool {
-	tomorrow, err := Tomorrow(c.Timezone())
-	if err != nil {
-		return false
-	}
-
-    return c.ToDateString() == tomorrow.ToDateString()
+    return c.ToDateString() == Tomorrow(c.Timezone()).ToDateString()
 }
 
 // Determines if the instance is a leap year.

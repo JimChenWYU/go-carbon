@@ -17,12 +17,12 @@ const (
 	HourFormat            = "15"
 	DayDateTimeFormat     = "Mon, Jan 2, 2006 3:04 PM"
 	CookieFormat          = "Monday, 02-Jan-2006 15:04:05 MST"
-	RFC822Format          = "Mon, 02 Jan 06 15:04:05 -0700"
-	RFC850Format          = "Monday, 02-Jan-06 15:04:05 MST"
+	RFC822Format          = time.RFC822
+	RFC850Format          = time.RFC850
 	RFC1036Format         = "Mon, 02 Jan 06 15:04:05 -0700"
-	RFC1123Format         = "Mon, 02 Jan 2006 15:04:05 -0700"
+	RFC1123Format         = time.RFC1123
 	RFC2822Format         = "Mon, 02 Jan 2006 15:04:05 -0700"
-	RFC3339Format         = "2006-01-02T15:04:05-07:00"
+	RFC3339Format         = time.RFC3339
 	RSSFormat             = "Mon, 02 Jan 2006 15:04:05 -0700"
 	W3CFormat             = "2006-01-02T15:04:05-07:00"
 	AtomFormat            = "2006-01-02T15:04:05-07:00"

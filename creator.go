@@ -1,7 +1,6 @@
 package carbon
 
 import (
-	"errors"
 	"time"
 )
 
@@ -19,17 +18,16 @@ func NewCarbon(t time.Time) *Carbon {
 	}
 }
 
-func Today(loc *time.Location) (*Carbon, error) {
-	return RawParse("today", loc)
-
+func Today(loc *time.Location) *Carbon {
+	return NewCarbon(time.Now().In(loc))
 }
 
-func Tomorrow(loc *time.Location) (*Carbon, error) {
-	return RawParse("tomorrow", loc)
+func Tomorrow(loc *time.Location) *Carbon {
+	return NewCarbon(time.Now().In(loc)).AddDays(1)
 }
 
-func Yesterday(loc *time.Location) (*Carbon, error) {
-	return RawParse("yesterday", loc)
+func Yesterday(loc *time.Location) *Carbon {
+	return NewCarbon(time.Now().In(loc)).SubDays(1)
 }
 
 func Create(year int, month time.Month, day int, hour int, minute int, second int, ns int, loc *time.Location) *Carbon {
@@ -47,17 +45,18 @@ func CreateFromTime(h, m, s, ns int, loc *time.Location) *Carbon {
 	return Create(year, month, day, h, m, s, ns, loc)
 }
 
-func RawParse(t string, loc *time.Location) (*Carbon, error) {
-	switch t {
-	case "today":
-		return NewCarbon(Now().In(loc)), nil
-	case "tomorrow":
-		today := NewCarbon(Now().In(loc))
-		return today.AddDays(1), nil
-	case "yesterday":
-		today := NewCarbon(Now().In(loc))
-		return today.SubDays(1), nil
+func RawParse(layout, value string, loc *time.Location) *Carbon {
+	t, err := time.ParseInLocation(layout, value, loc)
+	if err != nil {
+		panic(err)
 	}
+	return NewCarbon(t)
+}
 
-	return nil, errors.New("parse syntax error")
+func RawParseWithDefaultTz(layout, value string) *Carbon {
+	t, err := time.Parse(layout, value)
+	if err != nil {
+		panic(err)
+	}
+	return NewCarbon(t)
 }

@@ -72,12 +72,12 @@ func TestCarbon_ToRfc2822String(t *testing.T) {
 
 func TestCarbon_ToRfc3339String(t *testing.T) {
 	c := Create(2020, time.May, 30, 11, 20, 30, 103103103, getLocation("UTC"))
-	assert.EqualValues(t, "2020-05-30T11:20:30+00:00", c.ToRfc3339String())
+	assert.EqualValues(t, "2020-05-30T11:20:30Z", c.ToRfc3339String())
 }
 
 func TestCarbon_ToRfc822String(t *testing.T) {
 	c := Create(2020, time.May, 30, 11, 20, 30, 103103103, getLocation("UTC"))
-	assert.EqualValues(t, "Sat, 30 May 20 11:20:30 +0000", c.ToRfc822String())
+	assert.EqualValues(t, "30 May 20 11:20 UTC", c.ToRfc822String())
 }
 
 func TestCarbon_ToRfc850String(t *testing.T) {
@@ -102,7 +102,7 @@ func TestCarbon_ToAtomString(t *testing.T) {
 
 func TestCarbon_ToRfc1123String(t *testing.T) {
 	c := Create(2020, time.May, 30, 11, 20, 30, 103103103, getLocation("UTC"))
-	assert.EqualValues(t, "Sat, 30 May 2020 11:20:30 +0000", c.ToRfc1123String())
+	assert.EqualValues(t, "Sat, 30 May 2020 11:20:30 UTC", c.ToRfc1123String())
 }
 
 func TestCarbon_ToW3cString(t *testing.T) {
