@@ -6,19 +6,14 @@ import (
 )
 
 // Set the instance's timezone from a string or object.
-func (c *Carbon) SetTimezone(loc string) (*Carbon, error) {
-	l, err := time.LoadLocation(loc)
-	if err != nil {
-		return nil, err
-	}
-
+func (c *Carbon) SetTimezone(l *time.Location) *Carbon {
 	c.Time = time.Date(c.Year(), c.Month(), c.Day(), c.Hour(), c.Minute(), c.Second(), c.Nanosecond(), l)
-	return c, nil
+	return c
 }
 
-// Get the TimeZone associated with the Carbon instance (as CarbonTimeZone).
-func (c *Carbon) Timezone() string {
-	return c.Location().String()
+// Get the TimeZone associated with the Carbon instance.
+func (c *Carbon) Timezone() *time.Location {
+	return c.Location()
 }
 
 // Add microseconds to the instance.

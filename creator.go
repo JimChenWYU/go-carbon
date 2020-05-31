@@ -15,53 +15,43 @@ func NewCarbon(t time.Time) *Carbon {
 	}
 }
 
-func Today(loc string) (*Carbon, error) {
+func Today(loc *time.Location) (*Carbon, error) {
 	return RawParse("today", loc)
 
 }
 
-func Tomorrow(loc string) (*Carbon, error) {
+func Tomorrow(loc *time.Location) (*Carbon, error) {
 	return RawParse("tomorrow", loc)
 }
 
-func Yesterday(loc string) (*Carbon, error) {
+func Yesterday(loc *time.Location) (*Carbon, error) {
 	return RawParse("yesterday", loc)
 }
 
-func Create(year int, month time.Month, day int, hour int, minute int, second int, ns int, loc string) (*Carbon, error) {
-	l, err := time.LoadLocation(loc)
-	if err != nil {
-		return nil, err
-	}
-
-	return NewCarbon(time.Date(year, month, day, hour, minute, second, ns, l)), nil
+func Create(year int, month time.Month, day int, hour int, minute int, second int, ns int, loc *time.Location) *Carbon {
+	return NewCarbon(time.Date(year, month, day, hour, minute, second, ns, loc))
 }
 
-func CreateFromDate(year int, month time.Month, day int, loc string) (*Carbon, error) {
+func CreateFromDate(year int, month time.Month, day int, loc *time.Location) *Carbon {
 	h, m, s := Now().Clock()
 	ns := Now().Nanosecond()
 	return Create(year, month, day, h, m, s, ns, loc)
 }
 
-func CreateFromTime(h, m, s, ns int, loc string) (*Carbon, error) {
+func CreateFromTime(h, m, s, ns int, loc *time.Location) *Carbon {
 	year, month, day := Now().Date()
 	return Create(year, month, day, h, m, s, ns, loc)
 }
 
-func RawParse(t string, loc string) (*Carbon, error) {
-	l, err := time.LoadLocation(loc)
-	if err != nil {
-		return nil, err
-	}
-
+func RawParse(t string, loc *time.Location) (*Carbon, error) {
 	switch t {
 	case "today":
-		return NewCarbon(Now().In(l)), nil
+		return NewCarbon(Now().In(loc)), nil
 	case "tomorrow":
-		today := NewCarbon(Now().In(l))
+		today := NewCarbon(Now().In(loc))
 		return today.AddDays(1), nil
 	case "yesterday":
-		today := NewCarbon(Now().In(l))
+		today := NewCarbon(Now().In(loc))
 		return today.SubDays(1), nil
 	}
 
