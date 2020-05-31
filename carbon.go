@@ -38,6 +38,7 @@ type Carbon struct {
 	time.Time
 }
 
+// Format the instance as date and time
 func (c *Carbon) ToDateTimeString(unitPrecision string) (string, error) {
 	if unitPrecision == "" {
 		return c.Format(DefaultFormat), nil
@@ -55,50 +56,62 @@ func (c *Carbon) ToDateTimeString(unitPrecision string) (string, error) {
 	return c.Format(strjoin(DateFormat, " ", format)), nil
 }
 
+// Format the instance as date
 func (c *Carbon) ToDateString() string {
 	return c.Format(DateFormat)
 }
 
+// Format the instance as a readable date
 func (c *Carbon) ToFormattedDateString() string {
 	return c.Format(FormattedDateFormat)
 }
 
+// Format the instance as time
 func (c *Carbon) ToTimeString() string {
 	return c.Format(TimeFormat)
 }
 
+// Format the instance with day, date and time
 func (c *Carbon) ToDayDateTimeString() string {
 	return c.Format(DayDateTimeFormat)
 }
 
+// Format the instance as COOKIE
 func (c *Carbon) ToCookieString() string {
 	return c.Format(CookieFormat)
 }
 
+// Format the instance as RFC822
 func (c *Carbon) ToRfc822String() string {
 	return c.Format(RFC822Format)
 }
 
+// Format the instance as RFC850
 func (c *Carbon) ToRfc850String() string {
 	return c.Format(RFC850Format)
 }
 
+// Format the instance as RFC1036
 func (c *Carbon) ToRfc1036String() string {
 	return c.Format(RFC1036Format)
 }
 
+// Format the instance as RFC2822
 func (c *Carbon) ToRfc2822String() string {
 	return c.Format(RFC2822Format)
 }
 
+// Format the instance as RFC3339
 func (c *Carbon) ToRfc3339String() string {
 	return c.Format(RFC3339Format)
 }
 
+// Format the instance as Rss
 func (c *Carbon) ToRssString() string {
 	return c.Format(RSSFormat)
 }
 
+// Return a format from H:i to H:i:s.u according to given unit precision.
 func getTimeFormatByPrecision(unitPrecision string) (string, error) {
 	switch unitPrecision {
 	case "minute":
