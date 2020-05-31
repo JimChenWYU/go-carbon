@@ -263,6 +263,11 @@ func TestCarbon_AddUnit(t *testing.T) {
 	d = c1.AddUnit("millennium", 1)
 	expected, _ = Create(3019, time.May, 29, 0, 0, 0, 0, "UTC")
 	assert.Equal(t, expected, d, "The year should be equal to 3019")
+
+	assert.PanicsWithError(t, "unknown unit to add", func() {
+		c1, _ = Create(2019, time.May, 29, 0, 0, 0, 0, "UTC")
+		c1.AddUnit("unknown unit", 1)
+	})
 }
 
 func TestCarbon_SubUnit(t *testing.T) {
@@ -325,4 +330,9 @@ func TestCarbon_SubUnit(t *testing.T) {
 	d = c1.SubUnit("millennium", 1)
 	expected, _ = Create(1019, time.May, 29, 0, 0, 0, 0, "UTC")
 	assert.Equal(t, expected, d, "The year should be equal to 1019")
+
+	assert.PanicsWithError(t, "unknown unit to add", func() {
+		c1, _ = Create(2019, time.May, 29, 0, 0, 0, 0, "UTC")
+		c1.SubUnit("unknown unit", 1)
+	})
 }
