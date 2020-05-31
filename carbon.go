@@ -34,8 +34,28 @@ const (
 	YearsPerMillennium   = 1000
 )
 
+var (
+	// Format to use for __toString method when type juggling occurs.
+	toStringFormat = DefaultFormat
+)
+
 type Carbon struct {
 	time.Time
+}
+
+// Set the default format used when type juggling a Carbon instance to a string
+func SetToStringFormat(format string) {
+	toStringFormat = format
+}
+
+// Reset the format used to the default when type juggling a Carbon instance to a string
+func ResetToStringFormat() {
+	toStringFormat = DefaultFormat
+}
+
+// Format the instance as a string using the set format
+func (c *Carbon) String() string {
+	return c.Format(toStringFormat)
 }
 
 // Format the instance as date and time
