@@ -2,7 +2,8 @@ package carbon
 
 import "time"
 
-func (c *Carbon) SetTimeZone(loc string) (*Carbon, error) {
+// Set the instance's timezone from a string or object.
+func (c *Carbon) SetTimezone(loc string) (*Carbon, error) {
 	l, err := time.LoadLocation(loc)
 	if err != nil {
 		return nil, err
@@ -12,6 +13,7 @@ func (c *Carbon) SetTimeZone(loc string) (*Carbon, error) {
 	return c, nil
 }
 
+// Get the TimeZone associated with the Carbon instance (as CarbonTimeZone).
 func (c *Carbon) Timezone() string {
 	return c.Location().String()
 }

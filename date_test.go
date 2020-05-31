@@ -6,10 +6,10 @@ import (
 	"time"
 )
 
-func TestCarbon_SetTimeZone(t *testing.T) {
+func TestCarbon_SetTimezone(t *testing.T) {
 	c, _ := Create(2020, time.May, 30, 11, 20, 30, 130130130, "UTC")
 	assert.EqualValues(t, "UTC", c.Timezone())
-	c.SetTimeZone("Africa/Cairo")
+	c.SetTimezone("Africa/Cairo")
 	assert.EqualValues(t, "Africa/Cairo", c.Timezone())
 }
 
