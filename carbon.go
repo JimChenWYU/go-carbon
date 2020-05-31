@@ -29,6 +29,9 @@ const (
 	SecondsPerMinute     = 60
 	NanosecondsPerSecond = 1000000000
 	MonthsPerQuarter     = 3
+	YearsPerDecade       = 10
+	YearsPerCentury      = 100
+	YearsPerMillennium   = 1000
 )
 
 type Carbon struct {
