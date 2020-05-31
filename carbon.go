@@ -2,7 +2,6 @@ package carbon
 
 import (
 	"errors"
-	"strings"
 	"time"
 )
 
@@ -46,11 +45,11 @@ func (c *Carbon) ToDateTimeString(unitPrecision string) (string, error) {
 		return "", err
 	}
 
-	var sb strings.Builder
-	sb.WriteString(DateFormat)
-	sb.WriteString(" ")
-	sb.WriteString(format)
-	return c.Format(sb.String()), nil
+	//var sb strings.Builder
+	//sb.WriteString(DateFormat)
+	//sb.WriteString(" ")
+	//sb.WriteString(format)
+	return c.Format(strjoin(DateFormat, " ", format)), nil
 }
 
 func (c *Carbon) ToDateString() string {
