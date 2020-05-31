@@ -1,6 +1,9 @@
 package carbon
 
-import "time"
+import (
+	"errors"
+	"time"
+)
 
 // Set the instance's timezone from a string or object.
 func (c *Carbon) SetTimezone(loc string) (*Carbon, error) {
@@ -18,94 +21,98 @@ func (c *Carbon) Timezone() string {
 	return c.Location().String()
 }
 
-// Add milliseconds to the instance.
-func (c *Carbon) AddMilli(ms int) *Carbon {
-	return NewCarbon(c.Add(time.Duration(ms) * time.Millisecond))
+// Add microseconds to the instance.
+func (c *Carbon) AddMicro(value int) *Carbon {
+	return c.AddUnit("micro", value)
 }
 
-// Add microseconds to the instance.
-func (c *Carbon) AddMicro(ms int) *Carbon {
-	return NewCarbon(c.Add(time.Duration(ms) * time.Microsecond))
+// Add milliseconds to the instance.
+func (c *Carbon) AddMilli(value int) *Carbon {
+	//return c.AddMicro(value * int(time.Millisecond))
+	return c.AddUnit("milli", value)
 }
 
 // Add seconds to the instance.
-func (c *Carbon) AddSeconds(s int) *Carbon {
-	return NewCarbon(c.Add(time.Duration(s) * time.Second))
+func (c *Carbon) AddSeconds(value int) *Carbon {
+	//return c.AddMicro(value * int(time.Second))
+	return c.AddUnit("second", value)
 }
 
 // Add minutes to the instance.
-func (c *Carbon) AddMinutes(m int) *Carbon {
-	return NewCarbon(c.Add(time.Duration(m) * time.Minute))
+func (c *Carbon) AddMinutes(value int) *Carbon {
+	//return c.AddMicro(value * int(time.Minute))
+	return c.AddUnit("minute", value)
 }
 
 // Add hours to the instance.
-func (c *Carbon) AddHours(h int) *Carbon {
-	return NewCarbon(c.Add(time.Duration(h) * time.Hour))
+func (c *Carbon) AddHours(value int) *Carbon {
+	//return c.AddMicro(value * int(time.Hour))
+	return c.AddUnit("hour", value)
 }
 
 // Add days to the instance.
-func (c *Carbon) AddDays(d int) *Carbon {
-	return NewCarbon(c.AddDate(0, 0, d))
+func (c *Carbon) AddDays(value int) *Carbon {
+	return c.AddUnit("day", value)
 }
 
 // Add weeks to the instance.
-func (c *Carbon) AddWeeks(w int) *Carbon {
-	return c.AddDays(DaysPerWeek * w)
+func (c *Carbon) AddWeeks(value int) *Carbon {
+	return c.AddDays(value * DaysPerWeek)
 }
 
 // Add months to the instance.
-func (c *Carbon) AddMonths(m int) *Carbon {
-	return NewCarbon(c.AddDate(0, m, 0))
+func (c *Carbon) AddMonths(value int) *Carbon {
+	return c.AddUnit("month", value)
 }
 
 // Add years to the instance.
-func (c *Carbon) AddYears(y int) *Carbon {
-	return NewCarbon(c.AddDate(y, 0, 0))
+func (c *Carbon) AddYears(value int) *Carbon {
+	return c.AddUnit("year", value)
 }
 
 // Sub milliseconds to the instance.
-func (c *Carbon) SubMilli(ms int) *Carbon {
-	return c.AddMilli(-ms)
+func (c *Carbon) SubMilli(value int) *Carbon {
+	return c.SubUnit("milli", value)
 }
 
 // Sub microseconds to the instance.
-func (c *Carbon) SubMicro(ms int) *Carbon {
-	return c.AddMicro(-ms)
+func (c *Carbon) SubMicro(value int) *Carbon {
+	return c.SubUnit("micro", value)
 }
 
 // Sub seconds to the instance.
-func (c *Carbon) SubSeconds(s int) *Carbon {
-	return c.AddSeconds(-s)
+func (c *Carbon) SubSeconds(value int) *Carbon {
+	return c.SubUnit("second", value)
 }
 
 // Sub minutes to the instance.
-func (c *Carbon) SubMinutes(m int) *Carbon {
-	return c.AddMinutes(-m)
+func (c *Carbon) SubMinutes(value int) *Carbon {
+	return c.SubUnit("minute", value)
 }
 
 // Sub hours to the instance.
-func (c *Carbon) SubHours(h int) *Carbon {
-	return c.AddHours(-h)
+func (c *Carbon) SubHours(value int) *Carbon {
+	return c.SubUnit("hour", value)
 }
 
 // Sub days to the instance.
-func (c *Carbon) SubDays(d int) *Carbon {
-	return c.AddDays(-d)
+func (c *Carbon) SubDays(value int) *Carbon {
+	return c.SubUnit("day", value)
 }
 
 // Sub weeks to the instance.
-func (c *Carbon) SubWeeks(w int) *Carbon {
-	return c.AddWeeks(-w)
+func (c *Carbon) SubWeeks(value int) *Carbon {
+	return c.SubDays(value * DaysPerWeek)
 }
 
 // Sub months to the instance.
-func (c *Carbon) SubMonths(m int) *Carbon {
-	return c.AddMonths(-m)
+func (c *Carbon) SubMonths(value int) *Carbon {
+	return c.SubUnit("month", value)
 }
 
 // Sub years to the instance.
-func (c *Carbon) SubYears(y int) *Carbon {
-	return c.AddYears(-y)
+func (c *Carbon) SubYears(value int) *Carbon {
+	return c.SubUnit("year", value)
 }
 
 // Set the date with gregorian year, month and day numbers.
@@ -166,4 +173,42 @@ func (c *Carbon) SetMonths(m time.Month) *Carbon {
 func (c *Carbon) SetYears(y int) *Carbon {
 	c.Time = time.Date(y, c.Month(), c.Day(), c.Hour(), c.Minute(), c.Second(), c.Nanosecond(), c.Location())
 	return c
+}
+
+// Add given units to the current instance.
+func (c *Carbon) AddUnit(which string, value int) *Carbon {
+	switch which {
+	case "micro":
+		c.Time = c.Add(time.Duration(value) * time.Microsecond)
+	case "milli":
+		c.Time = c.Add(time.Duration(value) * time.Millisecond)
+	case "second":
+		c.Time = c.Add(time.Duration(value) * time.Second)
+	case "minute":
+		c.Time = c.Add(time.Duration(value) * time.Minute)
+	case "hour":
+		c.Time = c.Add(time.Duration(value) * time.Hour)
+	case "day":
+		c.Time = c.AddDate(0, 0, value)
+	case "month":
+		c.Time = c.AddDate(0, value, 0)
+	case "quarter":
+		c.Time = c.AddDate(0, value*MonthsPerQuarter, 0)
+	case "year":
+		c.Time = c.AddDate(value, 0, 0)
+	case "decade":
+		c.Time = c.AddDate(value*YearsPerDecade, 0, 0)
+	case "century":
+		c.Time = c.AddDate(value*YearsPerCentury, 0, 0)
+	case "millennium":
+		c.Time = c.AddDate(value*YearsPerMillennium, 0, 0)
+	default:
+		panic(errors.New("unknown unit to add"))
+	}
+	return c
+}
+
+// Sub given units to the current instance.
+func (c *Carbon) SubUnit(which string, value int) *Carbon {
+	return c.AddUnit(which, -value)
 }
