@@ -1,7 +1,6 @@
 package carbon
 
 import (
-	"math"
 	"time"
 )
 
@@ -29,7 +28,7 @@ func (c *Carbon) EndOfMonth() *Carbon {
 
 // Resets the date to the first day of the quarter and the time to 00:00:00
 func (c *Carbon) StartOfQuarter() *Carbon {
-	quarter := math.Ceil(float64(c.Month()) / float64(MonthsPerQuarter))
+	quarter := c.Quarter()
 	month := (quarter-1)*MonthsPerQuarter + 1
 	return c.SetDate(c.Year(), time.Month(month), 1).StartOfDay()
 }

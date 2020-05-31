@@ -223,3 +223,40 @@ func TestCarbon_SubUnit(t *testing.T) {
 		c1.SubUnit("unknown unit", 1)
 	})
 }
+
+func TestCarbon_WeekOfYear(t *testing.T) {
+	c1 := Create(2015, time.January, 1, 0, 0, 0, 0, getLocation("UTC"))
+	assert.EqualValues(t, 1, c1.WeekOfYear())
+
+	c2 := Create(2016, time.January, 1, 0, 0, 0, 0, getLocation("UTC"))
+	assert.EqualValues(t, 53, c2.WeekOfYear())
+}
+
+func TestCarbon_resolveCarbon(t *testing.T) {
+	c1 := Create(2015, time.January, 1, 0, 0, 0, 0, getLocation("UTC"))
+	tn := time.Now()
+	c2 := c1.resolveCarbon(tn)
+	assert.Equal(t, tn, c2.Time)
+
+	c3 := c1.resolveCarbon(c1)
+	assert.Equal(t, c1, c3)
+
+	assert.PanicsWithError(t, "unknown the input type", func() {
+		c1.resolveCarbon("")
+	})
+}
+
+func TestCarbon_DaysInMonth(t *testing.T) {
+	var c1 *Carbon
+	c1 = CreateFromDate(2019, time.February, 20, getLocation("UTC"))
+	assert.EqualValues(t, 28, c1.DaysInMonth())
+
+	c1 = CreateFromDate(2020, time.January, 20, getLocation("UTC"))
+	assert.EqualValues(t, 31, c1.DaysInMonth())
+
+	c1 = CreateFromDate(2020, time.February, 20, getLocation("UTC"))
+	assert.EqualValues(t, 29, c1.DaysInMonth())
+
+	c1 = CreateFromDate(2020, time.April, 20, getLocation("UTC"))
+	assert.EqualValues(t, 30, c1.DaysInMonth())
+}

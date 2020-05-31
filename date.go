@@ -2,8 +2,14 @@ package carbon
 
 import (
 	"errors"
+	"math"
 	"time"
 )
+
+// Returns a present instance in the same timezone.
+func (c *Carbon) NowWithSameTz() *Carbon {
+	return NowWithTz(c.Timezone())
+}
 
 // Set the instance's timezone from a string or object.
 func (c *Carbon) SetTimezone(l *time.Location) *Carbon {
@@ -206,4 +212,53 @@ func (c *Carbon) AddUnit(which string, value int) *Carbon {
 // Sub given units to the current instance.
 func (c *Carbon) SubUnit(which string, value int) *Carbon {
 	return c.AddUnit(which, -value)
+}
+
+// Return ISO-8601 week number of year, weeks starting on Monday
+func (c *Carbon) WeekOfYear() int {
+    _, week := c.ISOWeek()
+    return week
+}
+
+// number of days in the given month
+func (c *Carbon) DaysInMonth() int {
+    return c.EndOfMonth().Day()
+}
+
+// the quarter of this instance, 1 - 4
+func (c *Carbon) Quarter() int {
+	return int(math.Ceil(float64(c.Month()) / float64(MonthsPerQuarter)))
+}
+
+// the decade of this instance
+func (c *Carbon) Decade() int {
+    return int(math.Ceil(float64(c.Year()) / float64(YearsPerDecade)))
+} 
+
+// the century of this instance
+func (c *Carbon) Century() int {
+	factor := 1
+	year := c.Year()
+	if year < 0 {
+		year = -year
+		factor = -1
+	}
+
+	return int(float64(factor) * math.Ceil(float64(year) / float64(YearsPerCentury)))
+}
+
+// Return the Carbon instance passed through, a now instance in the same timezone
+// If cannot parse the input
+func (c *Carbon) resolveCarbon(value interface{}) *Carbon {
+	if value == nil {
+		return c.NowWithSameTz()
+	}
+	switch value.(type) {
+	case time.Time:
+		return NewCarbon(value.(time.Time))
+	case *Carbon:
+		return value.(*Carbon)
+	default:
+		panic(errors.New("unknown the input type"))
+	}
 }

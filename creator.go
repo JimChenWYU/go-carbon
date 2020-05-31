@@ -9,6 +9,10 @@ func Now() *Carbon {
 	return NewCarbon(time.Now())
 }
 
+func NowWithTz(loc *time.Location) *Carbon {
+    return NewCarbon(time.Now().In(loc))
+}
+
 func NewCarbon(t time.Time) *Carbon {
 	return &Carbon{
 		Time: t,
