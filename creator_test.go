@@ -79,8 +79,3 @@ func TestYesterdayEET(t *testing.T) {
 //
 //	assert.NotNil(t, err)
 //}
-
-func getLocation(loc string) *time.Location {
-	l, _ := time.LoadLocation(loc)
-	return l
-}
