@@ -287,10 +287,33 @@ func TestCarbon_DiffInMonths_NegativeNoSign(t *testing.T) {
 }
 
 func TestCarbon_DiffInMonths_VsDefaultNow(t *testing.T) {
-	assert.EqualValues(t, 12, Now().SubYears(1).DiffInMonths(Now(), true))
+	wrapWithDefaultNowTestNow(func() {
+		assert.EqualValues(t, 12, Now().SubYears(1).DiffInMonths(Now(), true))
+	})
 }
 
 func TestCarbon_DiffInMonths_EnsureIsTruncated(t *testing.T) {
 	c1 := CreateFromDate(2000, time.January, 1, getLocation("UTC"))
 	assert.EqualValues(t, 1, c1.DiffInMonths(c1.Copy().AddMonths(1).AddDays(16), true))
+}
+
+func TestCarbon_DiffInQuarters_Positive(t *testing.T) {
+	c1 := CreateFromDate(2000, time.January, 1, getLocation("UTC"))
+	assert.EqualValues(t, 1, c1.DiffInQuarters(c1.Copy().AddQuarters(1).AddDays(1), true))
+}
+
+func TestCarbon_DiffInQuarters_NegativeWithSign(t *testing.T) {
+	c1 := CreateFromDate(2000, time.January, 1, getLocation("UTC"))
+	assert.EqualValues(t, -4, c1.DiffInQuarters(c1.Copy().SubQuarters(4), false))
+}
+
+func TestCarbon_DiffInQuarters_NegativeWithNoSign(t *testing.T) {
+	c1 := CreateFromDate(2000, time.January, 1, getLocation("UTC"))
+	assert.EqualValues(t, 4, c1.DiffInQuarters(c1.Copy().SubQuarters(4), true))
+}
+
+func TestCarbon_DiffInQuarters_VsDefaultNow(t *testing.T) {
+	wrapWithDefaultNowTestNow(func() {
+		assert.EqualValues(t, 4, Now().SubYears(1).DiffInQuarters(Now(), true))
+	})
 }

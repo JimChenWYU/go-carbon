@@ -83,7 +83,7 @@ func (c *Carbon) DiffInWeeks(v interface{}, absolute bool) int64 {
 	return c.DiffInDays(v, absolute) / DaysPerWeek
 }
 
-// DiffInYears returns the difference in years
+// Get the difference in years
 func (c *Carbon) DiffInYears(v interface{}, absolute bool) int64 {
 	resolve := c.resolveCarbon(v)
 	if c.Year() == resolve.Year() {
@@ -110,7 +110,7 @@ func (c *Carbon) DiffInYears(v interface{}, absolute bool) int64 {
 	return diff
 }
 
-// DiffInMonths returns the difference in months
+// Get the difference in months rounded down.
 // TODO: Add more tests
 func (c *Carbon) DiffInMonths(v interface{}, absolute bool) int64 {
 	resolve := c.resolveCarbon(v)
@@ -150,6 +150,11 @@ func (c *Carbon) DiffInMonths(v interface{}, absolute bool) int64 {
 	diffMonths = diffMonths % MonthsPerYear
 	diffMonths = absValueIf(int64(diffMonths), absolute)
 	return c.DiffInYears(v, absolute) * MonthsPerYear + diffMonths
+}
+
+// Get the difference in quarters rounded down.
+func (c *Carbon) DiffInQuarters(v interface{}, absolute bool) int64 {
+	return c.DiffInMonths(v, absolute) / MonthsPerQuarter
 }
 
 func (c *Carbon) hasRemainingOneMonthHour(resolve *Carbon) bool {
