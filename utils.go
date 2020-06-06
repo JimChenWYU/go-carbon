@@ -6,7 +6,7 @@ import (
 )
 
 // Join some strings to create a single string
-func strjoin(str ...string) string {
+func joinStrings(str ...string) string {
 	return strings.Join(str, "")
 }
 

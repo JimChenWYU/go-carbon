@@ -108,15 +108,15 @@ func (c *Carbon) IsSameUnit(unit string, v interface{}) bool {
 	case "day":
 		format = DateFormat
 	case "hour":
-		format = strjoin(DateFormat, " ", HourFormat)
+		format = joinStrings(DateFormat, " ", HourFormat)
 	case "minute":
-		format = strjoin(DateFormat, " ", HourMinuteFormat)
+		format = joinStrings(DateFormat, " ", HourMinuteFormat)
 	case "second":
-		format = strjoin(DateFormat, " ", TimeFormat)
+		format = joinStrings(DateFormat, " ", TimeFormat)
 	case "micro":
 		fallthrough
 	case "microsecond":
-		format = strjoin(DateFormat, " ", MicrosecondTimeFormat)
+		format = joinStrings(DateFormat, " ", MicrosecondTimeFormat)
 	default:
 		return false
 	}
@@ -149,8 +149,8 @@ func (c *Carbon) IsSameMonth(v interface{}, ofSameYear bool) bool {
 // Checks if the given date is in the same week as the instance. If null passed, compare to now (with the same timezone).
 func (c *Carbon) IsSameWeek(v interface{}) bool {
 	resolve := c.resolveCarbon(v)
-	cs := strjoin(c.Format("2006"), "-", string(c.WeekOfYear()))
-	vs := strjoin(resolve.Format("2006"), "-", string(resolve.WeekOfYear()))
+	cs := joinStrings(c.Format("2006"), "-", string(c.WeekOfYear()))
+	vs := joinStrings(resolve.Format("2006"), "-", string(resolve.WeekOfYear()))
 	return cs == vs
 }
 

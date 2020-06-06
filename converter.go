@@ -37,7 +37,7 @@ func (c *Carbon) ToDateTimeString(unitPrecision string) string {
 	//sb.WriteString(DateFormat)
 	//sb.WriteString(" ")
 	//sb.WriteString(format)
-	return c.Format(strjoin(DateFormat, " ", format))
+	return c.Format(joinStrings(DateFormat, " ", format))
 }
 
 // Format the instance as date
@@ -61,7 +61,7 @@ func (c *Carbon) ToDateTimeLocalString(unitPercision string) string {
 	if err != nil {
 		panic(err)
 	}
-	return c.Format(strjoin(DateFormat, "T", format))
+	return c.Format(joinStrings(DateFormat, "T", format))
 }
 
 // Format the instance with day, date and time
