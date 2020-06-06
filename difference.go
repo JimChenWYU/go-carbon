@@ -8,9 +8,7 @@ import (
 // Get the difference in nanoseconds using timestamps.
 func (c *Carbon) DiffInRealNanoseconds(v interface{}, absolute bool) int64 {
 	diff := c.resolveCarbon(v).UnixNano() - c.UnixNano()
-	if absolute && diff < 0 {
-		diff = -diff
-	}
+	diff = absValueIf(diff, absolute)
 	return diff
 }
 
@@ -29,20 +27,16 @@ func (c *Carbon) DiffInRealMilliseconds(v interface{}, absolute bool) int64 {
 // Get the difference in seconds using timestamps.
 func (c *Carbon) DiffInRealSeconds(v interface{}, absolute bool) int64 {
 	diff := c.resolveCarbon(v).Timestamp() - c.Timestamp()
-	if absolute && diff < 0 {
-		diff = -diff
-	}
+	diff = absValueIf(diff, absolute)
 	return diff
 }
 
 // Get the difference in nanoseconds.
 func (c *Carbon) DiffInNanoseconds(v interface{}, absolute bool) int64 {
-    diff := c.resolveCarbon(v).Sub(c.Time)
-	if absolute && diff < 0 {
-		diff = -diff
-	}
+    diff := int64(c.resolveCarbon(v).Sub(c.Time))
+	diff = absValueIf(diff, absolute)
 
-	return int64(diff)
+	return diff
 }
 
 // Get the difference in microseconds.
@@ -105,7 +99,7 @@ func (c *Carbon) DiffInYears(v interface{}, absolute bool) int64 {
 		swap = true
 	}
 
-	diff := end.Year() - start.Year() - 1
+	diff := int64(end.Year() - start.Year() - 1)
 	start.SetYears(end.Year())
 	if start.UnixNano() <= end.UnixNano() {
 		diff++
@@ -113,10 +107,8 @@ func (c *Carbon) DiffInYears(v interface{}, absolute bool) int64 {
 	if swap {
 		diff = -diff
 	}
-	if absolute && diff < 0 {
-		diff = -diff
-	}
-	return int64(diff)
+	diff = absValueIf(diff, absolute)
+	return diff
 }
 
 // DiffInMonths returns the difference in months
@@ -125,18 +117,18 @@ func (c *Carbon) DiffInMonths(v interface{}, absolute bool) int64 {
 	resolve := c.resolveCarbon(v)
 	originalCopy := c.Copy()
 	resolveCopy := resolve.Copy()
-	diffMonths := 0
+	diffMonths := int64(0)
 	if resolveCopy.Year() == originalCopy.Year() && resolveCopy.Month() != originalCopy.Month() {
 		remainingTime := int(originalCopy.DiffInHours(resolveCopy, false))
 		// less than 0 when resolve < original
 		if remainingTime < 0 {
-			diffMonths = int(math.Ceil(float64(remainingTime) / float64(resolveCopy.DaysInMonth()*HoursPerDay)))
+			diffMonths = int64(math.Ceil(float64(remainingTime) / float64(resolveCopy.DaysInMonth()*HoursPerDay)))
 		} else {
-			diffMonths = int(math.Floor(float64(remainingTime) / float64(originalCopy.DaysInMonth()*HoursPerDay)))
+			diffMonths = int64(math.Floor(float64(remainingTime) / float64(originalCopy.DaysInMonth()*HoursPerDay)))
 		}
 	}
 	if resolveCopy.Year() < originalCopy.Year() {
-		diffMonths = int(MonthsPerYear - resolveCopy.Month() + originalCopy.Month() - 1)
+		diffMonths = int64(MonthsPerYear - resolveCopy.Month() + originalCopy.Month() - 1)
 		if originalCopy.hasRemainingOneMonthHour(resolveCopy) {
 			diffMonths++
 		}
@@ -145,7 +137,7 @@ func (c *Carbon) DiffInMonths(v interface{}, absolute bool) int64 {
 		}
 	}
 	if resolveCopy.Year() > originalCopy.Year() {
-		diffMonths = int(MonthsPerYear - originalCopy.Month() + resolveCopy.Month() - 1)
+		diffMonths = int64(MonthsPerYear - originalCopy.Month() + resolveCopy.Month() - 1)
 		if resolveCopy.hasRemainingOneMonthHour(originalCopy) {
 			diffMonths++
 		}
@@ -154,10 +146,8 @@ func (c *Carbon) DiffInMonths(v interface{}, absolute bool) int64 {
 		}
 	}
 	diffMonths = diffMonths % MonthsPerYear
-	if absolute && diffMonths < 0 {
-		diffMonths = -diffMonths
-	}
-	return c.DiffInYears(v, absolute) * MonthsPerYear + int64(diffMonths)
+	diffMonths = absValueIf(int64(diffMonths), absolute)
+	return c.DiffInYears(v, absolute) * MonthsPerYear + diffMonths
 }
 
 func (c *Carbon) hasRemainingOneMonthHour(resolve *Carbon) bool {
