@@ -222,7 +222,7 @@ func (c *Carbon) WeekOfYear() int {
 
 // number of days in the given month
 func (c *Carbon) DaysInMonth() int {
-    return c.EndOfMonth().Day()
+    return c.Copy().EndOfMonth().Day()
 }
 
 // the quarter of this instance, 1 - 4
@@ -245,6 +245,11 @@ func (c *Carbon) Century() int {
 	}
 
 	return int(float64(factor) * math.Ceil(float64(year) / float64(YearsPerCentury)))
+}
+
+// Get a copy of the instance.
+func (c *Carbon) Copy() *Carbon {
+	return Create(c.Year(), c.Month(), c.Day(), c.Hour(), c.Minute(), c.Second(), c.Nanosecond(), c.Timezone())
 }
 
 // Return the Carbon instance passed through, a now instance in the same timezone
