@@ -5,11 +5,19 @@ import (
 )
 
 func Now() *Carbon {
-	return NewCarbon(time.Now())
+	var t time.Time
+	if HasTestNow() {
+		t = TestNow().Time
+	} else {
+		t = time.Now()
+	}
+	return NewCarbon(t)
 }
 
 func NowWithTz(loc *time.Location) *Carbon {
-    return NewCarbon(time.Now().In(loc))
+	now := Now()
+	now.Time = now.Time.In(loc)
+    return now
 }
 
 func NewCarbon(t time.Time) *Carbon {
