@@ -1,7 +1,6 @@
 package carbon
 
 import (
-	"math"
 	"time"
 )
 
@@ -119,12 +118,15 @@ func (c *Carbon) DiffInMonths(v interface{}, absolute bool) int64 {
 	resolveCopy := resolve.Copy()
 	diffMonths := int64(0)
 	if resolveCopy.Year() == originalCopy.Year() && resolveCopy.Month() != originalCopy.Month() {
-		remainingTime := int(originalCopy.DiffInHours(resolveCopy, false))
-		// less than 0 when resolve < original
-		if remainingTime < 0 {
-			diffMonths = int64(math.Ceil(float64(remainingTime) / float64(resolveCopy.DaysInMonth()*HoursPerDay)))
-		} else {
-			diffMonths = int64(math.Floor(float64(remainingTime) / float64(originalCopy.DaysInMonth()*HoursPerDay)))
+		diffMonths = int64(resolveCopy.Month() - originalCopy.Month())
+		if diffMonths > 0 {
+			if originalCopy.AddMonths(int(diffMonths)).GreaterThan(resolveCopy) {
+				diffMonths--
+			}
+		} else if diffMonths < 0 {
+			if resolveCopy.SubMonths(int(diffMonths)).GreaterThan(originalCopy) {
+				diffMonths++
+			}
 		}
 	}
 	if resolveCopy.Year() < originalCopy.Year() {
