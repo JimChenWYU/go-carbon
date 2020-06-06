@@ -66,10 +66,25 @@ func (c *Carbon) AddMonths(value int) *Carbon {
 	return c.AddUnit("month", value)
 }
 
+// Add quarters to the instance.
+func (c *Carbon) AddQuarters(value int) *Carbon {
+    return c.AddUnit("quarter", value)
+} 
+
 // Add years to the instance.
 func (c *Carbon) AddYears(value int) *Carbon {
 	return c.AddUnit("year", value)
 }
+
+// Add decades to the instance.
+func (c *Carbon) AddDecades(value int) *Carbon {
+	return c.AddUnit("decade", value)
+}
+
+// Add centuries to the instance.
+func (c *Carbon) AddCenturies(value int) *Carbon {
+   return c.AddUnit("century", value)
+} 
 
 // Sub milliseconds to the instance.
 func (c *Carbon) SubMilli(value int) *Carbon {
