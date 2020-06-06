@@ -69,7 +69,7 @@ func (c *Carbon) AddMonths(value int) *Carbon {
 // Add quarters to the instance.
 func (c *Carbon) AddQuarters(value int) *Carbon {
     return c.AddUnit("quarter", value)
-} 
+}
 
 // Add years to the instance.
 func (c *Carbon) AddYears(value int) *Carbon {
@@ -126,9 +126,24 @@ func (c *Carbon) SubMonths(value int) *Carbon {
 	return c.SubUnit("month", value)
 }
 
+// Sub quarters to the instance.
+func (c *Carbon) SubQuarters(value int) *Carbon {
+	return c.SubUnit("quarter", value)
+}
+
 // Sub years to the instance.
 func (c *Carbon) SubYears(value int) *Carbon {
 	return c.SubUnit("year", value)
+}
+
+// Sub decades to the instance.
+func (c *Carbon) SubDecades(value int) *Carbon {
+	return c.SubUnit("decade", value)
+}
+
+// Sub centuries to the instance.
+func (c *Carbon) SubCenturies(value int) *Carbon {
+	return c.SubUnit("century", value)
 }
 
 // Set the date with gregorian year, month and day numbers.
